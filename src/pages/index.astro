@@ -1,0 +1,57 @@
+---
+import {fetchAIResponse} from '../ai'
+import {parseForm} from '../parse'
+import Showdown from 'showdown'
+
+const messages = (Astro.request.method == 'POST')
+	? await parseForm(Astro.request.formData()).then(fetchAIResponse)
+	: []
+
+const isActiveChat = (messages.length != 0)
+const markdown = new Showdown.Converter()
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width"/>
+		<title>Chit</title>
+	</head>
+	<body>
+		{!isActiveChat && (
+			<br/><br/><br/><br/>
+		)}
+		<center>
+			<h1>Chit</h1>
+			{!isActiveChat && (
+				<p>Welcome! What would you like regurgitated today?</p>
+			)}
+		</center>
+		{messages.map((message) => (
+			<table width="100%">
+				<tr>
+					{message.role == 'user' && <td></td>}
+					<td width="80%">
+						<table
+							width="100%"
+							border={message.role == 'user' ? 1 : 0}
+						>
+							<tr><td set:html={markdown.makeHtml(message.content)}/></tr>
+						</table>
+					</td>
+					{message.role != 'user' && <td></td>}
+				</tr>
+			</table>
+		))}
+		<br/>
+		{isActiveChat && <hr/>}
+		<center>
+			<form id="latest" method="POST" action="/#latest">
+				<input name="message" type="text" size="40"/>
+				{isActiveChat && <a href="/">[+] New chat</a>}
+				<a href="/info">(?) Info</a>
+				<input type="hidden" name="history" value={JSON.stringify(messages)}/>
+			</form>
+		</center>
+	</body>
+</html>
