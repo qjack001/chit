@@ -7,7 +7,7 @@ uncredible powers of Large Language Models to the old web. Now, for the first ti
 - no client-side JavaScript
 
 
-The site uses good ol' form submissions, anchor links, and table layout provide a near-splitting image of the chatbots
+The site uses good ol' form submissions, anchor links, and table layout to provide a near-splitting image of the chatbots
 you know and love, with none of the JavaScript or CSS. This allows the site to be used with JavaScript disabled, or
 from browsers that don't support modern web standards.
 
