@@ -36,7 +36,9 @@ const markdown = new Showdown.Converter()
 							width="100%"
 							border={message.role == 'user' ? 1 : 0}
 						>
-							<tr><td set:html={markdown.makeHtml(message.content)}/></tr>
+							<tr>
+								<td set:html={markdown.makeHtml(message.content)}/>
+							</tr>
 						</table>
 					</td>
 					{message.role != 'user' && <td></td>}
@@ -46,11 +48,23 @@ const markdown = new Showdown.Converter()
 		<br/>
 		{isActiveChat && <hr/>}
 		<center>
-			<form id="latest" method="POST" action="/#latest">
-				<input name="message" type="text" size="40"/>
+			<form
+				id="latest"
+				method="POST"
+				action="/#latest"
+			>
+				<input
+					name="message"
+					type="text"
+					size="40"
+				/>
 				{isActiveChat && <a href="/">[+] New chat</a>}
 				<a href="/info">(?) Info</a>
-				<input type="hidden" name="history" value={JSON.stringify(messages)}/>
+				<input
+					type="hidden"
+					name="history"
+					value={JSON.stringify(messages)}
+				/>
 			</form>
 		</center>
 	</body>
